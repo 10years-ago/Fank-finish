@@ -56,10 +56,6 @@ export default {
               localStorage.setItem("password", '');
             }
             localStorage.setItem("user", self.username);
-            //截取school到期时间的年/月/日
-            let endTime = response.data.endTime.split(" ")[0]
-            //账号到期时间
-            localStorage.setItem("endTime", endTime)
             //现在的登录时间(按照服务器的时间来计算)
             localStorage.setItem("nowTime", response.data.nowTime)
             //存于本地的驾校名，用于保存登录状态
