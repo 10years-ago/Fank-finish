@@ -143,10 +143,18 @@ export default {
       postData['school'] = this.$store.state.school
         this.axios.post(`${process.env.VUE_APP_fank}/testStuAll`,postData,{timeout:10000})
       .then(res => {
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
           this.total = res.data.all
           // this.tableData = res.data.list.filter((item, index) => index < this.pageSize)
           this.tableData = res.data.list
           this.loading = false
+        }
       })
       .catch(err => {
         this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{
@@ -190,7 +198,15 @@ export default {
       }
       this.axios.post(`${process.env.VUE_APP_fank}/testStuInsert`,data)
       .then(res => {
-        this.select()
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
+          this.select()
+        }
       })
       .catch(err => {
         this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{

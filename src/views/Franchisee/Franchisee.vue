@@ -120,6 +120,12 @@ export default {
                   }
                 })
                 this.tableData.unshift(JSON.parse(JSON.stringify(this.formData)))
+              }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
               }else{
                 this.$alert('录入失败，分点或场地不可重复','温馨提示',{
                   confirmButtonText:'确定',
@@ -153,6 +159,12 @@ export default {
                     return 
                   }
                 }
+              }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
               }else{
                 this.$alert('修改失败，分点或场地不可重复','温馨提示',{
                   confirmButtonText:'确定',
@@ -184,8 +196,16 @@ export default {
       this.$debounce(() =>{
       this.axios.post(`${process.env.VUE_APP_fank}/agentSelect`,this.selectData,{timeout:10000})
       .then(res => {
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
           this.tableData = res.data.list
           this.loading = false
+        }
       })
       .catch(err => {
         this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{
@@ -196,10 +216,6 @@ export default {
       },500)//debounce-end
     },
     tableAdd(){
-      //打开添加框先清空数据
-      // for(let key in this.formData){
-      //   key !== 'school'? this.formData[key] = '' : ''
-      // }
       this.FormVisibleAdd = true
     },
     tableUpdate(val){
@@ -226,6 +242,12 @@ export default {
               return 
             }
           }
+        }else if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
         }else{
           this.$alert('删除失败','温馨提示',{
             confirmButtonText:'确定',

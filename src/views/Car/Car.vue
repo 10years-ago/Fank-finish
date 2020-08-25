@@ -207,6 +207,12 @@ export default {
                     this.select()
                   }
                 })
+              }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
               }else{
                 this.$alert('录入失败，车牌号或车架号不可重复','温馨提示',{
                   confirmButtonText:'确定',
@@ -241,6 +247,12 @@ export default {
                     return 
                   }
                 }
+              }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
               }else{
                 this.$alert('修改失败，车牌号或车架号已存在','温馨提示',{
                   confirmButtonText:'确定',
@@ -326,6 +338,12 @@ export default {
               return 
             }
           }
+        }else if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
         }else{
           this.$alert('删除失败','温馨提示',{
             confirmButtonText:'确定',
@@ -359,12 +377,18 @@ export default {
                 this.dataPost()
             }
           })
-        }else{
-          this.$alert('确认失败','温馨提示',{
+        }else if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
             confirmButtonText:'确定',
               callback: action => {
             }
           })
+        }else{
+        this.$alert('确认失败','温馨提示',{
+          confirmButtonText:'确定',
+            callback: action => {
+          }
+        })
         }
       })
       .catch(err => {
@@ -393,7 +417,13 @@ export default {
           this.loading = false
           this.total = res.data.all
           this.tableData = res.data.list
-          if(res.data.number > 0){
+          if(res.data.status == 'over'){
+            this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+              confirmButtonText:'确定',
+                callback: action => {
+              }
+            })
+          }else if(res.data.number > 0){
             this.$notify({
               title: '警告',
               message: `有${res.data.number}辆车准备年审，请留意`,
@@ -438,11 +468,19 @@ export default {
         }
       this.axios.post(`${process.env.VUE_APP_fank}/carkow`,param,config)
       .then(res =>{
-        this.formData.carNum = res.data.carNum
-        this.formData.name = res.data.name
-        this.formData.frameNum = res.data.frameNum
-        this.formData.registerDate = res.data.registerDate
-        this.formData.annualReview = res.data.annualReview
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
+          this.formData.carNum = res.data.carNum
+          this.formData.name = res.data.name
+          this.formData.frameNum = res.data.frameNum
+          this.formData.registerDate = res.data.registerDate
+          this.formData.annualReview = res.data.annualReview
+        }
       })
       .catch(err =>{
         this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{

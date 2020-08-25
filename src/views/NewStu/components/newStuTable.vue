@@ -205,6 +205,12 @@ export default {
             callback: action => {
           }
         })
+      }else if(res.data.status == 'over'){
+        this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+          confirmButtonText:'确定',
+            callback: action => {
+          }
+        })
       }else{
         this.axios.post(`${process.env.VUE_APP_fank}/FinancialInsert`,row,{timeout:10000})
         .then(res => {
@@ -228,12 +234,20 @@ export default {
       let data = {id:val}
       this.axios.post(`${process.env.VUE_APP_fank}/deleteNotPaying`,data,{timeout:10000})
         .then(res => {
+          if(res.data.status == 'over'){
+            this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+              confirmButtonText:'确定',
+                callback: action => {
+              }
+            })
+          }else{
           this.$alert('删除成功','温馨提示',{
           confirmButtonText:'确定',
             callback: action => {
               this.$emit('refresh','')//再次刷新
           }
-        })
+          })
+        }
         })
         .catch(err => {
           this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{
@@ -280,8 +294,13 @@ export default {
                 callback: action => {
               }
               })
-            }
-            else{
+            }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
+              }else{
               this.$alert('录入失败，未知异常','温馨提示',{
                 confirmButtonText:'确定',
                   callback: action => {

@@ -201,7 +201,13 @@ export default {
                 callback: action => {
               }
               })
-            }else{
+            }else if(res.data.status == 'over'){
+                this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+                  confirmButtonText:'确定',
+                    callback: action => {
+                  }
+                })
+              }else{
               this.$alert('录入失败，未知异常','温馨提示',{
                 confirmButtonText:'确定',
                   callback: action => {

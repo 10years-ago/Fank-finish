@@ -104,24 +104,32 @@ export default {
         page:this.currentPage,
         pageSize:this.pageSize,
       }
-        //遍历filterData插入obj
-        filterData.map(e => {
-          if(e[1] instanceof Array){
-            //把开始时间和结束时间的数组拆解为两个字符串
-            postData['date'] = e[1][0]
-            postData['end_date'] = e[1][1]
-          }else{
-            postData[e[0]] = e[1]
-          }
-        })
+      //遍历filterData插入obj
+      filterData.map(e => {
+        if(e[1] instanceof Array){
+          //把开始时间和结束时间的数组拆解为两个字符串
+          postData['date'] = e[1][0]
+          postData['end_date'] = e[1][1]
+        }else{
+          postData[e[0]] = e[1]
+        }
+      })
       this.axios.post(`${process.env.VUE_APP_fank}/FinancialSelect`,postData,{
         timeout:10000
       })
       .then(res => {
-        this.total = res.data.all
-        //当前页的数量
-        this.tableData = res.data.list
-        this.loading = false
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
+          this.total = res.data.all
+          //当前页的数量
+          this.tableData = res.data.list
+          this.loading = false
+        }
       })
       .catch(err => {
           this.$alert(`网络错误，请检查网络或联系供应商。错误代码：${err}`,'温馨提示',{

@@ -101,8 +101,16 @@ export default {
       }
       this.axios.post(`${process.env.VUE_APP_fank}/photoExport`,data,{timeout:10000})
       .then(res => {
-        for(let i = 0,j = res.data.list.length; i < j; i++){
-          this.downloadImg(res.data.list[i], name)
+        if(res.data.status == 'over'){
+          this.$alert('账号已到期，如想继续使用，请联系供应商续费。','温馨提示',{
+            confirmButtonText:'确定',
+              callback: action => {
+            }
+          })
+        }else{
+          for(let i = 0,j = res.data.list.length; i < j; i++){
+            this.downloadImg(res.data.list[i], name)
+          }
         }
       })
       .catch(err => {

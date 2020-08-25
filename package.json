@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "electron_dev": "npm run build && electron electron.js",
+    "electron_build": "electron-packager ./dist fank --platform=win32 --arch=x64 --icon=./dist/favicon.ico --overwrite"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -12,6 +14,7 @@
     "core-js": "^3.6.5",
     "echarts": "^4.8.0",
     "element-ui": "^2.13.2",
+    "file-saver": "^2.0.2",
     "file-saver.js": "^2.0.2",
     "register-service-worker": "^1.7.1",
     "v-charts": "^1.19.0",
@@ -27,6 +30,8 @@
     "@vue/cli-plugin-router": "~4.4.0",
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
+    "electron": "^9.2.1",
+    "electron-packager": "^15.1.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",

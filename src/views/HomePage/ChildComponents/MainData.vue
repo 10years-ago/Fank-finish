@@ -17,8 +17,8 @@
               <el-card shadow="hover">
                 <div class="card-data">
                   <p class="card-title"><i class="el-icon-odometer" style="color:#28d17c"></i>剩余时长</p>
-                  <p class="card-text">{{mainData.lastDay}}天</p>
-                  <p class="card-down">{{endTime}}</p>
+                  <p class="card-text">{{mainData.days}}天</p>
+                  <p class="card-down">{{mainData.lastDay}}</p>
                 </div>
               </el-card>
             </el-col>
@@ -63,9 +63,6 @@ export default {
   name: '',
   // components:{VePie},
   computed:{
-    endTime(){
-      return window.localStorage.endTime
-    }
   },
   props:{
     mainData:{
